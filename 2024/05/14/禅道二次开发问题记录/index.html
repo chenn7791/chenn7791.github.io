@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        
+    
+    <link rel='stylesheet' href="/./css/dracula.css">
+
+        <title>禅道二次开发问题记录</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2.0">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="manifest" href="/site.webmanifest">
+
+    <meta name="generator" content="Hexo 7.2.0"></head>
+    <body>
+        <header class="al_header al_pos_fixed">
+    <div class="al_header_container dis_flex_jcenter">
+        <div class="al_header_container_left">
+            <div class="al_header_site_title">
+                <a href="/">ChennBlogs</a>
+            </div>
+        </div>
+
+        <div class="dis_flex_jcenter">
+            <div class="al_header_setting">
+                <svg class="al_header_icon">
+                    <use xmlns="http://www.w3.org/2000/svg" xlink:href="/assets/svg_icons.svg#svg-menu"></use>
+                </svg>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="al_sidebar">
+
+    <div class="al_sidebar_overlay al_full_cover"></div>
+
+    <div class="al_pos_fixed al_sidebar_cnt">
+        <div class="dis_flex_acenter al_sidebar_header">
+            <h3>ChennBlogs</h3>
+            <div class="al_sidebar_close al_header_setting">
+                <svg class="al_header_icon">
+                    <use xmlns="http://www.w3.org/2000/svg" xlink:href="/assets/svg_icons.svg#svg-close"></use>
+                </svg>
+            </div>
+        </div>
+
+        <div class="al_sidebar_author_cnt">
+
+            <div class="al_sidebar_author_info">
+                <h4>Chenn</h4>
+                <p>记录一些工作生活和日常</p>
+            </div>
+
+            
+                <div class="al_sidebar_contact_info">
+                    <h4>联系方式</h4>
+                    <p></p>
+
+                    <div class="dis_flex al_sidebar_social_widget">
+                        
+                        
+
+                        
+                        
+
+                        
+                        
+
+                        
+                        
+                            <div class="al_social_icon_cnt" data_link="https://www.github.com/chenn7791">
+                                <svg class="al_social_icon" id="github">
+                                    <use xmlns="http://www.w3.org/2000/svg" xlink:href="/assets/svg_icons.svg#icon_github"></use>
+                                </svg>
+                            </div>
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+        
+    <div class="dis_flex_center al_lightbox_cnt al_full_cover">
+        <img class="al_lightbox_img"/>
+    </div>
+    <div class="al_page_background dis_flex_center al_full_cover"></div>
+    <div class="al_page_container">
+        <div class="al_pos_ab al_fake_background"></div>
+        <div class="al_main_container al_shadow al_main_page_container">
+            <article class="al_article">
+                <header>
+                    <h1 class="al_page_title">
+                        禅道二次开发问题记录
+                    </h1>
+                    <div class="al_page_info dis_flex">
+                        <div class="al_page_content_info">
+                            Tue May 14, 2024 09:22 PM
+                        </div>
+
+                        
+
+                        
+                    </div>
+                </header>
+
+                
+                    <div class="al_page_content_outline">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%BC%80%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87-%E4%BD%BF%E7%94%A8%E6%BA%90%E4%BB%A3%E7%A0%81%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%A6%85%E9%81%93%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2"><span class="toc-text">二开环境准备-使用源代码方式进行禅道环境安装部署</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#zentaoPHP%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D"><span class="toc-text">zentaoPHP框架介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%B5%81%E7%A8%8B"><span class="toc-text">安装流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">部署安装过程遇到的问题以及解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85apache-httpd%E5%90%8E%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%E5%B9%B6%E4%B8%94httpd%E6%9C%8D%E5%8A%A1%E6%AD%A3%E5%B8%B8%E4%BD%86%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AEphp%E7%95%8C%E9%9D%A2-ECONNREFUSE"><span class="toc-text">安装apache&#x2F;httpd后安装成功并且httpd服务正常但无法访问php界面 ECONNREFUSE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%85%E9%81%93%E5%AE%89%E8%A3%85%E7%95%8C%E9%9D%A2%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6%E6%A3%80%E6%9F%A5%E4%B8%8D%E9%80%9A%E8%BF%87%EF%BC%8C%E6%8C%89%E7%85%A7%E4%BF%AE%E6%94%B9%E6%96%B9%E6%A1%88%E4%BF%AE%E6%94%B9%E5%88%B7%E6%96%B0%E5%90%8E%E4%BB%8D%E6%97%A7%E4%B8%8D%E9%80%9A%E8%BF%87"><span class="toc-text">禅道安装界面临时文件检查不通过，按照修改方案修改刷新后仍旧不通过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%85%E9%81%93%E5%AE%89%E8%A3%85%E5%AE%8C%E6%AF%95%E5%90%8E%E5%AF%86%E7%A0%81%EF%BC%8C%E5%A6%82%E4%BD%95%E6%89%BE%E5%9B%9E%E5%AF%86%E7%A0%81"><span class="toc-text">禅道安装完毕后密码，如何找回密码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AD%A3%E5%BC%8F%E8%BF%9B%E8%A1%8C%E4%BA%8C%E5%BC%80-%E4%BD%BF%E7%94%A8%E6%89%A9%E5%B1%95%E6%96%B9%E5%BC%8F"><span class="toc-text">正式进行二开-使用扩展方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3%E6%95%B4%E7%90%86"><span class="toc-text">开发流程参考文档整理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">扩展中的问题以及解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8HOOK%E6%89%A9%E5%B1%95VIEW%E6%97%B6%E4%B8%8D%E7%94%9F%E6%95%88"><span class="toc-text">使用HOOK扩展VIEW时不生效</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E5%8C%85%E6%89%93%E5%8C%85-zip%E6%96%87%E4%BB%B6%E5%8C%85"><span class="toc-text">扩展包打包-zip文件包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F"><span class="toc-text">安装方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E5%8C%85%E8%A7%A3%E5%8E%8B%E5%90%8E%E7%9A%84%E7%9B%AE%E5%BD%95%E6%A0%91%E7%BB%93%E6%9E%84"><span class="toc-text">扩展包解压后的目录树结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="toc-text">压缩命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">遇到的问题及解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86%E5%AE%89%E8%A3%85%E5%90%8E%EF%BC%8C%E6%8F%90%E7%A4%BA%E7%89%88%E6%9C%AC%E4%B8%8D%E5%85%BC%E5%AE%B9"><span class="toc-text">使用插件管理安装后，提示版本不兼容</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                
+
+                
+                <section id="post-body">
+                    <p>主要记录在进行禅道二开的过程中遇到的问题以及问题解决的方案</p>
+<h1 id="二开环境准备-使用源代码方式进行禅道环境安装部署"><a href="#二开环境准备-使用源代码方式进行禅道环境安装部署" class="headerlink" title="二开环境准备-使用源代码方式进行禅道环境安装部署"></a>二开环境准备-使用源代码方式进行禅道环境安装部署</h1><h2 id="zentaoPHP框架介绍"><a href="#zentaoPHP框架介绍" class="headerlink" title="zentaoPHP框架介绍"></a>zentaoPHP框架介绍</h2><blockquote><footer><strong>@DevDocs</strong><cite><a target="_blank" rel="noopener" href="https://devel.easycorp.cn/book/zentaophphelp/structure-14.html">devel.easycorp.cn/book/zentaophphelp/structure-14.html</a></cite></footer></blockquote>
+
+<h2 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h2><p>安装禅道所需的包: 使用推荐 Linux + Apache + PHP7.0以上版本 + MariaDB的组合</p>
+<blockquote><p>远程Linux环境信息<br># uname -a<br>Linux host-10-0-9-36 4.14.179-1.el7.x86_64 #1 SMP Tue May 12 02:22:15 EDT 2020 x86_64 x86_64 x86_64 GNU&#x2F;Linux</p>
+<footer><strong>@DevDocs</strong><cite><a target="_blank" rel="noopener" href="https://www.zentao.net/book/zentaopms/809.html">www.zentao.net/book/zentaopms/809.html</a></cite></footer></blockquote>
+
+<p>安装后检查服务是否正常：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查apache</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 二 2024-05-14 16:21:31 CST; 6h ago</span><br><span class="line">   ...</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查php版本</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">httpd --version</span></span><br><span class="line">AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified domain name, using fe80::7f2d:1652:cbc5:d67a. Set the &#x27;ServerName&#x27; directive globally to suppress this message</span><br><span class="line">httpd (pid 5358) already running</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查mariadb是否安装成功</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">mysql -uroot -p</span></span><br><span class="line">Enter password: </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>安装PHP的ioncube扩展</p>
+<blockquote><footer><strong>@DevDocs</strong><cite><a target="_blank" rel="noopener" href="https://www.zentao.net/book/zentaopms/818.html">www.zentao.net/book/zentaopms/818.html</a></cite></footer></blockquote>
+
+<p>源码安装</p>
+<blockquote><footer><strong>@DevDocs</strong><cite><a target="_blank" rel="noopener" href="https://www.zentao.net/book/zentaopms/1165.html">www.zentao.net/book/zentaopms/1165.html</a></cite></footer></blockquote>
+
+<h2 id="部署安装过程遇到的问题以及解决方案"><a href="#部署安装过程遇到的问题以及解决方案" class="headerlink" title="部署安装过程遇到的问题以及解决方案"></a>部署安装过程遇到的问题以及解决方案</h2><h3 id="安装apache-httpd后安装成功并且httpd服务正常但无法访问php界面-ECONNREFUSE"><a href="#安装apache-httpd后安装成功并且httpd服务正常但无法访问php界面-ECONNREFUSE" class="headerlink" title="安装apache&#x2F;httpd后安装成功并且httpd服务正常但无法访问php界面 ECONNREFUSE"></a>安装apache&#x2F;httpd后安装成功并且httpd服务正常但无法访问php界面 ECONNREFUSE</h3><p>解决方案：关闭防火墙（设置白名单）</p>
+<img src="/2024/05/14/%E7%A6%85%E9%81%93%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/q1.solve.png" class="">
+
+<h3 id="禅道安装界面临时文件检查不通过，按照修改方案修改刷新后仍旧不通过"><a href="#禅道安装界面临时文件检查不通过，按照修改方案修改刷新后仍旧不通过" class="headerlink" title="禅道安装界面临时文件检查不通过，按照修改方案修改刷新后仍旧不通过"></a>禅道安装界面临时文件检查不通过，按照修改方案修改刷新后仍旧不通过</h3><img src="/2024/05/14/%E7%A6%85%E9%81%93%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/q2.png" class="">
+<p>解决方案：在服务器执行setenforce 0 并且刷新界面</p>
+<h3 id="禅道安装完毕后密码，如何找回密码"><a href="#禅道安装完毕后密码，如何找回密码" class="headerlink" title="禅道安装完毕后密码，如何找回密码"></a>禅道安装完毕后密码，如何找回密码</h3><blockquote><footer><strong>@DevDocs</strong><cite><a target="_blank" rel="noopener" href="https://www.zentao.net/ask/5182.html">www.zentao.net/ask/5182.html</a></cite></footer></blockquote>
+
+<h1 id="正式进行二开-使用扩展方式"><a href="#正式进行二开-使用扩展方式" class="headerlink" title="正式进行二开-使用扩展方式"></a>正式进行二开-使用扩展方式</h1><h2 id="开发流程参考文档整理"><a href="#开发流程参考文档整理" class="headerlink" title="开发流程参考文档整理"></a>开发流程参考文档整理</h2><p>zentaoPHP框架提供了<strong>扩展机制</strong>、<strong>API集成</strong>和<strong>命令行调用</strong>机制工三种方式来满足大家的需求,本次主要食用的是扩展机制进行禅道框架页面扩展</p>
+<blockquote><p>扩展机制介绍以及MVC层的扩展</p>
+<footer><strong>@DevDocs</strong><cite><a target="_blank" rel="noopener" href="https://devel.easycorp.cn/book/extension/basic-35.html">devel.easycorp.cn/book/extension/basic-35.html</a></cite></footer></blockquote>
+
+<blockquote><p>定位修改的文件</p>
+<footer><strong>@DevDocs</strong><cite><a target="_blank" rel="noopener" href="https://www.zentao.net/book/api/156.html">www.zentao.net/book/api/156.html</a></cite></footer></blockquote>
+
+<h2 id="扩展中的问题以及解决方案"><a href="#扩展中的问题以及解决方案" class="headerlink" title="扩展中的问题以及解决方案"></a>扩展中的问题以及解决方案</h2><h3 id="使用HOOK扩展VIEW时不生效"><a href="#使用HOOK扩展VIEW时不生效" class="headerlink" title="使用HOOK扩展VIEW时不生效"></a>使用HOOK扩展VIEW时不生效</h3><img src="/2024/05/14/%E7%A6%85%E9%81%93%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/q2.png" class="">
+<p>问题定位及解决方案：view&#x2F;append.html.hook.php -&gt;view&#x2F;dynamic.append.hook.php<br>钩子文件的命名方式为f.xxx.html.hook.php(其中f为方法名、xxx自定义名称)</p>
+<p><span style="color: red;">注意：在扩展时需要非常注意文件的目录结构、文件的命名方式、类的命名方式（扩展Model和Control需要注意）</span></p>
+<h1 id="扩展包打包-zip文件包"><a href="#扩展包打包-zip文件包" class="headerlink" title="扩展包打包-zip文件包"></a>扩展包打包-zip文件包</h1><h2 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h2><ol>
+<li>通过插件管理安装：管理员用户（admin）登录禅道系统-访问后台-插件-安装插件-本地安装-选择zip后缀的安装包-继续执行</li>
+<li>手动安装：解压安装包-将对应文件拷贝至对应目录</li>
+</ol>
+<h2 id="扩展包解压后的目录树结构"><a href="#扩展包解压后的目录树结构" class="headerlink" title="扩展包解压后的目录树结构"></a>扩展包解压后的目录树结构</h2><h2 id="压缩命令"><a href="#压缩命令" class="headerlink" title="压缩命令"></a>压缩命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip -r -9 dt-xxxx.zip 压缩的目录路径</span><br></pre></td></tr></table></figure>
+
+<h2 id="遇到的问题及解决方案"><a href="#遇到的问题及解决方案" class="headerlink" title="遇到的问题及解决方案"></a>遇到的问题及解决方案</h2><h3 id="使用插件管理安装后，提示版本不兼容"><a href="#使用插件管理安装后，提示版本不兼容" class="headerlink" title="使用插件管理安装后，提示版本不兼容"></a>使用插件管理安装后，提示版本不兼容</h3><img src="/2024/05/14/%E7%A6%85%E9%81%93%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/q2.png" class="">
+<p>问题定位：doc&#x2F;zh-cn.yaml 中的zentaoversion字段设置错误</p>
+
+                </section>
+
+                
+                
+
+                
+
+            </article>
+
+            
+            <nav class="dis_flex al_post_nav">
+                <a class="al_post_nav_item dis_flex_acenter" href="/">
+                    
+                </a>
+                <a class="al_post_nav_item dis_flex_acenter" href="/2024/05/14/test-my-site/">
+                    
+                        <span class="al_text_ellipsis al_post_nav_desc">test_my_site</span>
+                        <svg class="al_arrow">
+                            <use xmlns="http://www.w3.org/2000/svg" xlink:href="/assets/svg_icons.svg#svg-arrow-right"></use>
+                        </svg>
+                    
+                </a>
+            </nav>
+        </div>
+    </div>
+
+
+        <div class="al_index_footer dis_flex_center">
+    <div class="al_index_footer_item al_index_footer_title">
+        Chenn
+    </div>
+
+    
+    
+
+    <div class="al_index_footer_item al_index_footer_extra">
+         主题色支持
+        <a target="_blank" rel="noopener" href="https://github.com/iGuan7u/Acetolog">AcetoLog</a>
+         · 框架支持
+        <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    </div>
+
+    <div class="al_index_footer_item al_index_footer_extra_right">
+        版权所有
+    </div>
+</div>
+
+        <script type="text/javascript" async="async" src="/javascripts/acelog.js"></script>
+        
+        
+        
+        
+        
+
+    </body>
+</html>
