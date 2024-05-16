@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        
+    
+    <link rel='stylesheet' href="/./css/dracula.css">
+
+        <title>融合平台版本控制设计-即根据产品部署情况以及部署版本情况动态加载入口</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2.0">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="manifest" href="/site.webmanifest">
+
+    <meta name="generator" content="Hexo 7.2.0"></head>
+    <body>
+        <header class="al_header al_pos_fixed">
+    <div class="al_header_container dis_flex_jcenter">
+        <div class="al_header_container_left">
+            <div class="al_header_site_title">
+                <a href="/">ChennBlogs</a>
+            </div>
+        </div>
+
+        <div class="dis_flex_jcenter">
+            <div class="al_header_setting">
+                <svg class="al_header_icon">
+                    <use xmlns="http://www.w3.org/2000/svg" xlink:href="/assets/svg_icons.svg#svg-menu"></use>
+                </svg>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="al_sidebar">
+
+    <div class="al_sidebar_overlay al_full_cover"></div>
+
+    <div class="al_pos_fixed al_sidebar_cnt">
+        <div class="dis_flex_acenter al_sidebar_header">
+            <h3>ChennBlogs</h3>
+            <div class="al_sidebar_close al_header_setting">
+                <svg class="al_header_icon">
+                    <use xmlns="http://www.w3.org/2000/svg" xlink:href="/assets/svg_icons.svg#svg-close"></use>
+                </svg>
+            </div>
+        </div>
+
+        <div class="al_sidebar_author_cnt">
+
+            <div class="al_sidebar_author_info">
+                <h4>Chenn</h4>
+                <p>记录一些工作生活和日常</p>
+            </div>
+
+            
+                <div class="al_sidebar_contact_info">
+                    <h4>联系方式</h4>
+                    <p></p>
+
+                    <div class="dis_flex al_sidebar_social_widget">
+                        
+                        
+
+                        
+                        
+
+                        
+                        
+
+                        
+                        
+                            <div class="al_social_icon_cnt" data_link="https://www.github.com/chenn7791">
+                                <svg class="al_social_icon" id="github">
+                                    <use xmlns="http://www.w3.org/2000/svg" xlink:href="/assets/svg_icons.svg#icon_github"></use>
+                                </svg>
+                            </div>
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+        
+    <div class="dis_flex_center al_lightbox_cnt al_full_cover">
+        <img class="al_lightbox_img"/>
+    </div>
+    <div class="al_page_background dis_flex_center al_full_cover"></div>
+    <div class="al_page_container">
+        <div class="al_pos_ab al_fake_background"></div>
+        <div class="al_main_container al_shadow al_main_page_container">
+            <article class="al_article">
+                <header>
+                    <h1 class="al_page_title">
+                        融合平台版本控制设计-即根据产品部署情况以及部署版本情况动态加载入口
+                    </h1>
+                    <div class="al_page_info dis_flex">
+                        <div class="al_page_content_info">
+                            Wed May 15, 2024 02:12 PM
+                        </div>
+
+                        
+
+                        
+                    </div>
+                </header>
+
+                
+                    <div class="al_page_content_outline">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E4%BA%A7%E7%94%9F%E8%83%8C%E6%99%AF"><span class="toc-text">问题产生背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%A7%E5%93%81%E5%8A%9F%E8%83%BD%E5%8F%8A%E7%89%88%E6%9C%AC%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE"><span class="toc-text">产品功能及版本测试数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%AE%BE%E8%AE%A1"><span class="toc-text">逻辑设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%AE%BE%E8%AE%A1"><span class="toc-text">数据类型设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%85%8D%E7%BD%AE%E5%8A%9F%E8%83%BD%E7%A4%BA%E4%BE%8B"><span class="toc-text">根据数据类型配置功能示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E8%AE%BE%E8%AE%A1-%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-text">方法设计-伪代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#versionItem-%E8%AE%BE%E8%AE%A1"><span class="toc-text">versionItem 设计</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">方法代码实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#More%EF%BC%9Astorage-%E4%BA%A7%E5%93%81%E4%BD%9C%E4%B8%BA%E5%9F%BA%E7%A1%80%E4%BA%A7%E5%93%81%EF%BC%8C%E5%A6%82%E6%9E%9C-cloud-%E4%BA%A7%E5%93%81%E5%AE%89%E8%A3%85%E5%90%8E%E9%9C%80%E8%A6%81%E5%B1%8F%E8%94%BD%E4%B8%80%E4%BA%9B-storage-%E4%BA%A7%E5%93%81%E7%9A%84%E5%8A%9F%E8%83%BD%E8%AF%A5%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%91%A2%EF%BC%9F%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE"><span class="toc-text">More：storage 产品作为基础产品，如果 cloud 产品安装后需要屏蔽一些 storage 产品的功能该如何实现呢？如何配置?</span></a></li></ol>
+                    </div>
+                
+
+                
+                <section id="post-body">
+                    <p>多产品融合平台如何进行版本控制</p>
+<h1 id="问题产生背景"><a href="#问题产生背景" class="headerlink" title="问题产生背景"></a>问题产生背景</h1><p>现有存储产品（storage）和云计算产品（cloud）融合平台。需求为以下：</p>
+<ul>
+<li>能够单独部署任一产品，部署后能够访问对应产品部署版本的功能特性</li>
+<li>能够进行融合部署，部署后能够访问两个产品部署版本的功能特性</li>
+<li>升级任意产品后能够正确访问升级后的产品的功能特性</li>
+<li>能够进行向前兼容和向后兼容</li>
+<li>便于代码的维护</li>
+</ul>
+<p>原来解决方案（基于 react）<br>项目中有入口配置文件，这个文件会在产品发布时进行数据的增删改以满足新增功能、删除功能、修改功能等。这种方式的问题在于即使同一产品不同版本同一功能的配置信息差距较大，若产品上线后需要对入口进行修改时需要定位对应的入口文件，在此基础上进行修改（可能删除数据、修改数据、添加数据）后进行文件替换[仅描述最简单逻辑，不关注如何操作]</p>
+<p>设计新方法期望实现保留入口配置文件的基础上，对于特性的增删改，不需要找到对应的发布包的入口配置文件，可以直接实现修改相关配置项就能动态进行删减</p>
+<h1 id="产品功能及版本测试数据"><a href="#产品功能及版本测试数据" class="headerlink" title="产品功能及版本测试数据"></a>产品功能及版本测试数据</h1><p>.<br>├── cloud-vm # 产品功能模块<br>├── public-dashboard<br>├── storage-fs<br>└── storage-sync</p>
+<p>描述对应表格</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>仅安装 storage 产品</th>
+<th>仅安装 cloud 产品</th>
+<th>融合安装</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cloud-vm&#x2F;version:cloud&#x3D;all</td>
+<td>所有版本不可见</td>
+<td>任意版本可见</td>
+<td>安装了 cloud 产品&amp;&amp;满足 cloud 产品版本限制</td>
+</tr>
+<tr>
+<td>public-dashboard&#x2F;version:storage&gt;&#x3D;4.6 | cloud&gt;&#x3D;3.5</td>
+<td>version&gt;&#x3D;4.6 可见</td>
+<td>version&gt;&#x3D;3.5 可见</td>
+<td>满意前两个任一条件可见</td>
+</tr>
+<tr>
+<td>storage-fs&#x2F;version:storage&#x3D;all</td>
+<td>所有版本可见</td>
+<td>不可见</td>
+<td>安装了 storage 产品&amp;&amp;满足 storage 版本可见</td>
+</tr>
+<tr>
+<td>storage-sync&#x2F;version:storage&lt;&#x3D;4.0|storage&gt;&#x3D;4.2|cloud</td>
+<td>[4.0, 4.2]可见</td>
+<td>不可见</td>
+<td>安装了 storage 产品&amp;&amp;满足 storage 版本可见</td>
+</tr>
+</tbody></table>
+<h1 id="逻辑设计"><a href="#逻辑设计" class="headerlink" title="逻辑设计"></a>逻辑设计</h1><h2 id="数据类型设计"><a href="#数据类型设计" class="headerlink" title="数据类型设计"></a>数据类型设计</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 产品</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Product</span> = <span class="string">&quot;cloud&quot;</span> | <span class="string">&quot;storage&quot;</span>;</span><br><span class="line"><span class="comment">// version类型</span></span><br><span class="line"><span class="keyword">type</span> versionItem = <span class="built_in">string</span>; <span class="comment">// versionItem 最好使用开闭区间来表示</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ModuleInfo</span> &#123;</span><br><span class="line">  <span class="attr">accessProducts</span>: <span class="title class_">Product</span>[];</span><br><span class="line">  <span class="attr">version</span>: <span class="title class_">Record</span>&lt;<span class="title class_">Product</span>, versionItem[]&gt;;</span><br><span class="line">  [<span class="attr">key</span>: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中：<br>accessProducts: 单独安装时都允许访问的产品，（融合安装只要满足对应的产品的版本限制即可访问对应功能）<br>versions: 限制指定产品的版本, 可支持：</p>
+<h2 id="根据数据类型配置功能示例"><a href="#根据数据类型配置功能示例" class="headerlink" title="根据数据类型配置功能示例"></a>根据数据类型配置功能示例</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>accessProducts</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cloud-vm&#x2F;version:cloud&#x3D;all</td>
+<td>[“cloud”]</td>
+</tr>
+<tr>
+<td>public-dashboard&#x2F;version:storage&gt;&#x3D;4.6 | cloud&gt;&#x3D;3.5</td>
+<td>[“storage”, “cloud”]</td>
+</tr>
+<tr>
+<td>storage-fs&#x2F;version:storage&#x3D;all</td>
+<td>[“storage”]</td>
+</tr>
+<tr>
+<td>storage-sync&#x2F;version:storage&lt;&#x3D;4.0|storage&gt;&#x3D;4.2\</td>
+<td>[“storage”]</td>
+</tr>
+</tbody></table>
+<h2 id="方法设计-伪代码"><a href="#方法设计-伪代码" class="headerlink" title="方法设计-伪代码"></a>方法设计-伪代码</h2><p>需要设计以下几个方法及调用关系</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主入口函数-用于实现需求</span></span><br><span class="line"><span class="comment">// modules: 所有模块的配置信息</span></span><br><span class="line"><span class="comment">// instP: 实际产品安装信息</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">entriesFilter</span>(<span class="params">modules: ModuleInfo[], instP: Record&lt;Product, versionItem&gt;</span>) &#123;</span><br><span class="line">  <span class="comment">// 安装的产品</span></span><br><span class="line">  <span class="keyword">const</span> instPNames = <span class="title class_">Object</span>.<span class="title function_">keys</span>(instP);</span><br><span class="line">  <span class="comment">// 获取安装的某个产品的对应的版本</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">getInstVersion</span> = (<span class="params">p</span>) =&gt; instP[p];</span><br><span class="line">  <span class="comment">// 开始进行筛选</span></span><br><span class="line">  <span class="keyword">return</span> modules.<span class="title function_">filter</span>(<span class="function">(<span class="params">moduleItem</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 获取配置的产品和实际安装的产品的交叉数据</span></span><br><span class="line">    <span class="keyword">const</span> interSectProduct = <span class="title function_">getSameItem</span>(moduleItem.<span class="property">accessProducts</span>, instPNames);</span><br><span class="line">    <span class="keyword">if</span> (interSectProduct有数据) &#123;</span><br><span class="line">      <span class="comment">// 根据interSectProduct中的产品计算当前版本和配置的版本的关系</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> flag = interSectProduct.<span class="title function_">reduce</span>(<span class="function">(<span class="params">res, eachProduct</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 如果已经验证通过了，不继续下面的步骤</span></span><br><span class="line">        <span class="keyword">if</span> (res) <span class="keyword">return</span> res;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 安装的产品版本与配置的版本比较</span></span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">comparedVersions</span>(<span class="title function_">getInstVersion</span>(eachProduct), moduleItem.<span class="property">version</span>[eachProduct]);</span><br><span class="line">      &#125;, <span class="literal">false</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 没有数据，则该模块为cloud-vm并且只安装storage产品 或者相反</span></span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 安装的产品版本与配置的版本比较</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">comparedVersions</span>(<span class="params">instPV: versionItem; versions: versionItem[] = []</span>) &#123;</span><br><span class="line">   versions.<span class="title function_">reduce</span>(<span class="function">(<span class="params">res, version</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 前一个的比较结果已经包含了中断后续逻辑</span></span><br><span class="line">    <span class="keyword">if</span> (res) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="comment">// 判断单个version的关系</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_">comparedVersion</span>(instPV, version)) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">   &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 比较单个version</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">comparedVersion</span>(<span class="params">instPV, version</span>): <span class="built_in">boolean</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误处理-版本输入</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isValidVersion</span>(<span class="params">version, n = <span class="number">3</span></span>): <span class="built_in">boolean</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">getNVersionReg</span> = (<span class="params">n</span>) =&gt; &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> valid = <span class="title function_">getNVersionReg</span>(n).<span class="title function_">test</span>(version);</span><br><span class="line">  <span class="keyword">if</span> (!valid) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(version输入不合规范);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> valid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误处理-版本条件</span></span><br><span class="line"><span class="comment">// versionCondition: 为配置的version[Product]的每一项</span></span><br><span class="line"><span class="comment">// 可配置开闭区间</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isValidVersionCondition</span>(<span class="params">versionCondition: versionItem</span>): <span class="built_in">boolean</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="versionItem-设计"><a href="#versionItem-设计" class="headerlink" title="versionItem 设计"></a>versionItem 设计</h2><blockquote>
+<p>对于目前版本比较关系，预支持以下几种写法</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>语言描述</th>
+<th>重构前设计</th>
+<th>实际配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大于 4.6 版本</td>
+<td>&gt;4.6</td>
+<td>(4.6, )</td>
+</tr>
+<tr>
+<td>大于等于 4.6 版本</td>
+<td>&gt;&#x3D;4.6</td>
+<td>[4.6, )</td>
+</tr>
+<tr>
+<td>小于 4.6 版本</td>
+<td>&lt;4.6</td>
+<td>(, 4.6)</td>
+</tr>
+<tr>
+<td>小于等于 4.6 版本</td>
+<td>&lt;&#x3D;4.6</td>
+<td>(, 4.6]</td>
+</tr>
+<tr>
+<td>4.0~4.2 之间，包含临界版本</td>
+<td>4.0~4.2</td>
+<td>[4.0, 4.2]</td>
+</tr>
+<tr>
+<td>4.0~4.2 之间，包含 4.0, 不包含 4.2</td>
+<td>-</td>
+<td>[4.0, 4.2）</td>
+</tr>
+<tr>
+<td>等于 4.6 版本</td>
+<td>&#x3D;4.6</td>
+<td>[4.6, 4.6]</td>
+</tr>
+<tr>
+<td>不等于 4.6 版本</td>
+<td>!4.6</td>
+<td>配置两条规则：(, 4.6), (4.6, )</td>
+</tr>
+</tbody></table>
+<p>注意：请不要配置<code>[4.6.0, 4.6.0)</code>，这种配置永远不会生效</p>
+<h1 id="方法代码实现"><a href="#方法代码实现" class="headerlink" title="方法代码实现"></a>方法代码实现</h1><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 类型定义</span></span><br><span class="line"><span class="keyword">const</span> productMap = &#123;</span><br><span class="line">  <span class="attr">pcloud</span>: <span class="string">&quot;cloud&quot;</span>,</span><br><span class="line">  <span class="attr">pstorage</span>: <span class="string">&quot;storage&quot;</span>,</span><br><span class="line">&#125; <span class="keyword">as</span> <span class="keyword">const</span>;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Product</span> = <span class="keyword">typeof</span> productMap[keyof <span class="keyword">typeof</span> productMap];</span><br><span class="line"><span class="keyword">type</span> versionItem = <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ModuleInfo</span> &#123;</span><br><span class="line">  <span class="attr">accessProducts</span>: <span class="title class_">Product</span>[];</span><br><span class="line">  <span class="attr">version</span>: <span class="title class_">Partial</span>&lt;<span class="title class_">Record</span>&lt;<span class="title class_">Product</span>, versionItem[]&gt;&gt;;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  [<span class="attr">key</span>: <span class="built_in">string</span>]: <span class="built_in">any</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法设计实现</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Method</span>() &#123;</span><br><span class="line">  <span class="comment">// 测试方法</span></span><br><span class="line">  <span class="keyword">static</span> <span class="title function_">testCases</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">dataJson</span>: <span class="title class_">ModuleInfo</span>[] = [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;cloud-vm&quot;</span>,</span><br><span class="line">        <span class="attr">accessProducts</span>: [productMap.<span class="property">pcloud</span>],</span><br><span class="line">        <span class="attr">version</span>: &#123;&#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;cloud-neutron&quot;</span>,</span><br><span class="line">        <span class="attr">accessProducts</span>: [productMap.<span class="property">pcloud</span>],</span><br><span class="line">        <span class="attr">version</span>: &#123;</span><br><span class="line">          [productMap.<span class="property">pcloud</span>]: [<span class="string">&quot;[3.5.0,)&quot;</span>],</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;public-dashboard&quot;</span>,</span><br><span class="line">        <span class="attr">accessProducts</span>: [productMap.<span class="property">pcloud</span>, productMap.<span class="property">pstorage</span>],</span><br><span class="line">        <span class="attr">version</span>: &#123;</span><br><span class="line">          [productMap.<span class="property">pcloud</span>]: [<span class="string">&quot;[3.5.0,)&quot;</span>],</span><br><span class="line">          [productMap.<span class="property">pstorage</span>]: [<span class="string">&quot;[4.7.0,)&quot;</span>],</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;storage-fs&quot;</span>,</span><br><span class="line">        <span class="attr">accessProducts</span>: [productMap.<span class="property">pstorage</span>],</span><br><span class="line">        <span class="attr">version</span>: &#123;</span><br><span class="line">          [productMap.<span class="property">pstorage</span>]: [<span class="string">&quot;[4.6.0,)&quot;</span>],</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;storage-sync&quot;</span>,</span><br><span class="line">        <span class="attr">accessProducts</span>: [productMap.<span class="property">pstorage</span>],</span><br><span class="line">        <span class="attr">version</span>: &#123;</span><br><span class="line">          [productMap.<span class="property">pstorage</span>]: [<span class="string">&quot;(,4.0.0)&quot;</span>, <span class="string">&quot;[4.6,)&quot;</span>],</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="attr">testArr</span>: <span class="title class_">Partial</span>&lt;<span class="title class_">Record</span>&lt;<span class="title class_">Product</span>, <span class="built_in">string</span>&gt;&gt;[] = [</span><br><span class="line">      &#123;</span><br><span class="line">        [productMap.<span class="property">pstorage</span>]: <span class="string">&quot;4.6&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        [productMap.<span class="property">pstorage</span>]: <span class="string">&quot;4.6.0&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        [productMap.<span class="property">pstorage</span>]: <span class="string">&quot;4.6.1&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        [productMap.<span class="property">pcloud</span>]: <span class="string">&quot;3.5.0&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        [productMap.<span class="property">pcloud</span>]: <span class="string">&quot;3.5.0&quot;</span>,</span><br><span class="line">        [productMap.<span class="property">pstorage</span>]: <span class="string">&quot;4.6.0&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// testcase</span></span><br><span class="line">    testArr.<span class="title function_">forEach</span>(<span class="function">(<span class="params">instP</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">group</span>(</span><br><span class="line">        <span class="string">`--------安装产品: <span class="subst">$&#123;<span class="built_in">Object</span>.entries(instP)</span></span></span><br><span class="line"><span class="subst"><span class="string">          .map(([p, v]) =&gt; <span class="string">`<span class="subst">$&#123;p&#125;</span>:<span class="subst">$&#123;v&#125;</span>`</span>)</span></span></span><br><span class="line"><span class="subst"><span class="string">          .join(<span class="string">&quot;,&quot;</span>)&#125;</span>`</span>,</span><br><span class="line">      );</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;result&quot;</span>, <span class="variable language_">this</span>.<span class="title function_">entriesFilter</span>(dataJson, instP));</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">groupEnd</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 主入口函数</span></span><br><span class="line">  <span class="keyword">static</span> entriesFilter = <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    modules: ModuleInfo[],</span></span></span><br><span class="line"><span class="params"><span class="function">    instP: Partial&lt;Record&lt;Product, <span class="built_in">string</span>&gt;&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">  </span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> instPNames = <span class="title class_">Object</span>.<span class="title function_">keys</span>(instP);</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">getInstVersion</span> = (<span class="params">p: Product</span>) =&gt; instP[p]!;</span><br><span class="line">    <span class="keyword">return</span> modules.<span class="title function_">filter</span>(<span class="function">(<span class="params">moduleItem</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> interSectProduct = <span class="title class_">Methods</span>.<span class="title function_">intersect</span>([</span><br><span class="line">        moduleItem.<span class="property">accessProducts</span>,</span><br><span class="line">        instPNames,</span><br><span class="line">      ]);</span><br><span class="line">      <span class="keyword">if</span> (interSectProduct.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> flag = interSectProduct.<span class="title function_">reduce</span>(</span><br><span class="line">          <span class="function">(<span class="params">res: <span class="built_in">boolean</span>, eachProduct: Product</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (res) <span class="keyword">return</span> res;</span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">comparedVersions</span>(</span><br><span class="line">              <span class="title function_">getInstVersion</span>(eachProduct),</span><br><span class="line">              moduleItem.<span class="property">version</span>[eachProduct],</span><br><span class="line">            );</span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="literal">false</span>,</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 没有数据，则该模块为cloud-vm并且只安装storage产品 或者相反</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@description</span> 比较版本列表，区间列表中的各个条件为或的逻辑关系</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; instPV 安装的产品版本 支持 4 4.6 4.6.0 4.6.0.1</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string[]</span>&#125; versions 区间列表 [&quot;[,4.5.0)&quot;, &quot;[4.6.0,4.6.0]&quot;]</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@returns</span> &#123;<span class="type">boolean</span>&#125;</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> comparedVersions = <span class="function">(<span class="params">instPV: <span class="built_in">string</span>, versions: versionItem[] = []</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (versions.<span class="property">length</span> === <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span> versions.<span class="title function_">reduce</span>(<span class="function">(<span class="params">res, version</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (res) <span class="keyword">return</span> res;</span><br><span class="line">      <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">comparedVersion</span>(instPV, version);</span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; instPV 安装的产品版本 支持 4 4.6 4.6.0 4.6.0.1</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; version 区间字符串 &quot;[,4.5.0)&quot;</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@returns</span> &#123;<span class="type">boolean</span>&#125;</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> comparedVersion = <span class="function">(<span class="params">instPV: <span class="built_in">string</span>, version: versionItem</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 错误处理</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="title function_">isValidVersion</span>(instPV)) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;当前安装的产品版本错误&quot;</span>, instPV);</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 配置版本条件错误</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="title function_">isValidVersionCondition</span>(version)) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;配置文件中的版本配置错误&quot;</span>, version);</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> [leftPart, rightPart] = version.<span class="title function_">trim</span>().<span class="title function_">split</span>(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> leftRange = leftPart.<span class="title function_">charAt</span>(<span class="number">0</span>),</span><br><span class="line">      minVersion = leftPart.<span class="title function_">substring</span>(<span class="number">1</span>),</span><br><span class="line">      rightRange = rightPart.<span class="title function_">charAt</span>(rightPart.<span class="property">length</span> - <span class="number">1</span>),</span><br><span class="line">      maxVersion = rightPart.<span class="title function_">substring</span>(<span class="number">0</span>, rightPart.<span class="property">length</span> - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">const</span> getCalculateResult = &#123;</span><br><span class="line">      <span class="comment">// 开闭区间计算</span></span><br><span class="line">      <span class="string">&quot;[&quot;</span>: <span class="function">() =&gt;</span></span><br><span class="line">        minVersion ? <span class="variable language_">this</span>.<span class="title function_">compareTwoVersions</span>(instPV, minVersion) &gt;= <span class="number">0</span> : <span class="literal">true</span>,</span><br><span class="line">      <span class="string">&quot;]&quot;</span>: <span class="function">() =&gt;</span></span><br><span class="line">        maxVersion ? <span class="variable language_">this</span>.<span class="title function_">compareTwoVersions</span>(instPV, maxVersion) &lt;= <span class="number">0</span> : <span class="literal">true</span>,</span><br><span class="line">      <span class="string">&quot;(&quot;</span>: <span class="function">() =&gt;</span></span><br><span class="line">        minVersion ? <span class="variable language_">this</span>.<span class="title function_">compareTwoVersions</span>(instPV, minVersion) &gt; <span class="number">0</span> : <span class="literal">true</span>,</span><br><span class="line">      <span class="string">&quot;)&quot;</span>: <span class="function">() =&gt;</span></span><br><span class="line">        maxVersion ? <span class="variable language_">this</span>.<span class="title function_">compareTwoVersions</span>(instPV, maxVersion) &lt; <span class="number">0</span> : <span class="literal">true</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">if</span> (minVersion &amp;&amp; !<span class="variable language_">this</span>.<span class="title function_">isValidVersion</span>(minVersion)) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;配置文件中的最小版本配置错误&quot;</span>, minVersion);</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (maxVersion &amp;&amp; !<span class="variable language_">this</span>.<span class="title function_">isValidVersion</span>(maxVersion)) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;配置文件中的最大版本配置错误&quot;</span>, maxVersion);</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ([</span><br><span class="line">      leftRange,</span><br><span class="line">      rightRange,</span><br><span class="line">    ] <span class="keyword">as</span> (keyof <span class="keyword">typeof</span> getCalculateResult)[]).<span class="title function_">reduce</span>(<span class="function">(<span class="params">res, opt</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> res &amp;&amp; getCalculateResult[opt]();</span><br><span class="line">    &#125;, <span class="literal">true</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 错误处理-版本输入</span></span><br><span class="line">  <span class="keyword">static</span> isValidVersion = <span class="function">(<span class="params">version: <span class="built_in">string</span>, n = <span class="number">3</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="regexp">/^\d(\.\d)&#123;0,3&#125;$/</span>.<span class="title function_">test</span>(version);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">// 判断version条件输入是否正确</span></span><br><span class="line">  <span class="keyword">static</span> isValidVersionCondition = <span class="function">(<span class="params">version: versionItem</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="regexp">/^(\[|\()(\d+(\.\d)&#123;0,3&#125;)?\,(\d(\.\d)&#123;0,3&#125;)?(\]|\))$/</span>.<span class="title function_">test</span>(</span><br><span class="line">      version.<span class="title function_">trim</span>(),</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@description</span> 比较单个版本</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; instPV 安装的产品版本 支持 4 4.6 4.6.0 4.6.0.1</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; configV 区间字符串 4.5.0</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@returns</span> &#123;<span class="type">number</span>&#125;</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">static</span> compareTwoVersions = <span class="function">(<span class="params">instPV: <span class="built_in">string</span>, configV: <span class="built_in">string</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> maxLength = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">const</span> v1ConfigLength = instPV.<span class="title function_">split</span>(<span class="string">&quot;.&quot;</span>).<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">const</span> v2ConfigLength = configV.<span class="title function_">split</span>(<span class="string">&quot;.&quot;</span>).<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">const</span> v1 =</span><br><span class="line">      v1ConfigLength &lt; maxLength</span><br><span class="line">        ? [</span><br><span class="line">            ...instPV.<span class="title function_">split</span>(<span class="string">&quot;.&quot;</span>),</span><br><span class="line">            ...<span class="keyword">new</span> <span class="title class_">Array</span>(maxLength - v1ConfigLength).<span class="title function_">fill</span>(<span class="string">&quot;0&quot;</span>),</span><br><span class="line">          ]</span><br><span class="line">        : instPV.<span class="title function_">split</span>(<span class="string">&quot;.&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> v2 =</span><br><span class="line">      v2ConfigLength &lt; maxLength</span><br><span class="line">        ? [</span><br><span class="line">            ...configV.<span class="title function_">split</span>(<span class="string">&quot;.&quot;</span>),</span><br><span class="line">            ...<span class="keyword">new</span> <span class="title class_">Array</span>(maxLength - v2ConfigLength).<span class="title function_">fill</span>(<span class="string">&quot;0&quot;</span>),</span><br><span class="line">          ]</span><br><span class="line">        : configV.<span class="title function_">split</span>(<span class="string">&quot;.&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; v2.<span class="property">length</span>; i++) &#123;</span><br><span class="line">      <span class="keyword">const</span> num1 = <span class="built_in">isNaN</span>(<span class="built_in">parseInt</span>(v1[i])) ? <span class="number">0</span> : <span class="built_in">parseInt</span>(v1[i]);</span><br><span class="line">      <span class="keyword">const</span> num2 = <span class="built_in">parseInt</span>(v2[i]);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (num1 &gt; num2) &#123;</span><br><span class="line">        <span class="comment">// 安装版本大于配置版本</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (num1 &lt; num2) &#123;</span><br><span class="line">        <span class="comment">// 安装版本小于配置版本</span></span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 安装版本等于配置版本</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用一下</span></span><br><span class="line"><span class="title class_">Method</span>.<span class="title function_">testCases</span>();</span><br></pre></td></tr></table></figure>
+
+<h1 id="More：storage-产品作为基础产品，如果-cloud-产品安装后需要屏蔽一些-storage-产品的功能该如何实现呢？如何配置"><a href="#More：storage-产品作为基础产品，如果-cloud-产品安装后需要屏蔽一些-storage-产品的功能该如何实现呢？如何配置" class="headerlink" title="More：storage 产品作为基础产品，如果 cloud 产品安装后需要屏蔽一些 storage 产品的功能该如何实现呢？如何配置?"></a>More：storage 产品作为基础产品，如果 cloud 产品安装后需要屏蔽一些 storage 产品的功能该如何实现呢？如何配置?</h1>
+                </section>
+
+                
+                
+
+                
+
+            </article>
+
+            
+            <nav class="dis_flex al_post_nav">
+                <a class="al_post_nav_item dis_flex_acenter" href="/">
+                    
+                </a>
+                <a class="al_post_nav_item dis_flex_acenter" href="/2024/04/25/%E7%A6%85%E9%81%93%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+                    
+                        <span class="al_text_ellipsis al_post_nav_desc">禅道二次开发问题记录</span>
+                        <svg class="al_arrow">
+                            <use xmlns="http://www.w3.org/2000/svg" xlink:href="/assets/svg_icons.svg#svg-arrow-right"></use>
+                        </svg>
+                    
+                </a>
+            </nav>
+        </div>
+    </div>
+
+
+        <div class="al_index_footer dis_flex_center">
+    <div class="al_index_footer_item al_index_footer_title">
+        Chenn
+    </div>
+
+    
+    
+
+    <div class="al_index_footer_item al_index_footer_extra">
+         主题色支持
+        <a target="_blank" rel="noopener" href="https://github.com/iGuan7u/Acetolog">AcetoLog</a>
+         · 框架支持
+        <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+    </div>
+
+    <div class="al_index_footer_item al_index_footer_extra_right">
+        版权所有
+    </div>
+</div>
+
+        <script type="text/javascript" async="async" src="/javascripts/acelog.js"></script>
+        
+        
+        
+        
+        
+
+    </body>
+</html>
